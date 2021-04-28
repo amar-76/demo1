@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    working_directory: /home/test
+    docker:
+      - image: python:3.9.0
+        environment:
+          FLASK_APP: autoapp.py
+          FLASK_DEBUG: 1
+    steps:
+      - checkout
+      - run:
+          name: install deps
+          command: pip install -r requirements.txt
+
+      - run:
+          name: run tests
+          command: pytest
+
+      - run:
+          name: run linter
+          command: flake8 --exclude=venv .
